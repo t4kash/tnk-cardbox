@@ -5,10 +5,10 @@ angular.module('tnkCardboxApp')
 
     # ログアウト
     $scope.logout = ->
-      NCMB.User.logOut()
+      Parse.User.logOut()
       $location.path "/"
 
-    if !NCMB.User.current()
+    if !Parse.User.current()
       $scope.logout()
       return
 
@@ -19,12 +19,13 @@ angular.module('tnkCardboxApp')
     $scope.reverse = true
 
     $scope.fetchCard = ->
-      Card = NCMB.Object.extend "Card"
-      query = new NCMB.Query Card
-      #query.equalTo("user", NCMB.User.current())
+      Card = Parse.Object.extend "Card"
+      query = new Parse.Query Card
+      query.equalTo("user", Parse.User.current())
+
       query.find({
         success: (results) ->
-          console.log results
+          console.log "total: " + results.length
           $scope.$apply( ->
             $scope.items = []
 
@@ -34,8 +35,9 @@ angular.module('tnkCardboxApp')
         error: (error) ->
           # エラー
           console.log(error.code + ' ' + error.message)
-          if error.code == "E401001"
+          if error.code == Parse.Error.OBJECT_NOT_FOUND
             $scope.logout()
+
       })
 
     $scope.fetchCard()

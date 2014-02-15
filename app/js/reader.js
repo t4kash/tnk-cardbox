@@ -3,8 +3,9 @@
  */
 (function() {
 
-  var TNK_CARD_APP_KEY = "a8f150d43aec60003889f014317dbbe73380925c62e72b4e672ff0ff6cc2326c";
-  var TNK_CARD_CLIENT_KEY = "d48b3fb6162b5c0e06bca7047866a30e2fc8b85bc12a2d8f9a5a476d571e57cc";
+  var TNK_CARD_APP_ID = "4ofkpZSUMjDDFQowUnV7rrdTPb01XXhuKncyQt5b";
+  var TNK_CARD_JS_KEY = "BSr5oeZvUrD3ZZZly8W170VQ81A9Q0stDU0f61iL";
+  var TNK_CARD_URL = "http://t4kash.github.io/tnk-cardbox/";
 
   /**
    * main
@@ -12,24 +13,87 @@
   var main = function() {
 
     /**
-     * ログインフォームを表示する
+     * メッセージFrameを表示する
      */
-    var loginForm = function() {
+    var messagePanel = function(message, loading) {
 
-      removeLoginForm();
-      
-      NCMB.User.logOut();
-
-      var shadowHeight = 20;
-      var i = 80;
-      var o = i;
-      var s= 20;
+      removeFrame();
 
       var lcss = "#TNK_CARD_FRAME {"
             + "  position: fixed;"
             + "  top: 0px; left: 0px;"
             + "  width: 100%;"
-            + "  height: 100px;"
+            + "  height: 90px;"
+            + "  padding-top: 20px;"
+            + "  background: #ffffff;"
+            + "  z-index: 2147483647;"
+            + "  border-bottom: solid 2px black;"
+            + "  text-align: center;"
+            + "} "
+            + "#TNK_CARD_FRAME .btn {"
+            + "  border: 1px solid;"
+            + "  border-radius: 4px;"
+            + "  margin: 5px;"
+            + "  padding: 4px 8px;"
+            + "  background-color: #fff;"
+            + "  border-color: #ccc;"
+            + "} "
+            + "#TNK_CARD_FRAME .btn-warning {"
+            + "  color: #fff;"
+            + "  background-color: #f0ad4e;"
+            + "  border-color: #eea236;"
+            + "}";
+
+      var lf = '<div id="TNK_CARD_FRAME">';
+
+      if (loading) {
+        lf = lf + '  <img src="' + TNK_CARD_URL + 'images/loading.gif">';
+      }
+
+      lf = lf + ' ' + message + '<br>'
+
+      if (!loading) {
+        lf = lf + ' <input type="button" id="TNK_CARD_FORM_LOGOUT_BTN" class="btn btn-warning" value="ログアウト">'
+      }
+
+      lf = lf + '</div>';
+
+      var e = document.createElement("div");
+      e.innerHTML = '<style id="TNK_CARD_STYLE">' + lcss + "</style>" + lf;
+      document.body.appendChild(e);
+
+      setTimeout(function(){
+          window.scrollTo(0, window.pageYOffset + 1);
+      }, 100);
+
+      if (!loading) {
+        $('#TNK_CARD_FORM_LOGOUT_BTN').click(function() {
+          Parse.User.logOut();
+          removeFrame();
+        });
+
+        setTimeout(function() {
+          removeFrame();
+        }, 5000);
+      }
+
+    };
+
+    /**
+     * ログインフォームを表示する
+     */
+    var loginForm = function() {
+
+      removeFrame();
+      
+      //Parse.User.logOut();
+
+      var lcss = "#TNK_CARD_FRAME {"
+            + "  position: fixed;"
+            + "  top: 0px; left: 0px;"
+            + "  width: 100%;"
+            + "  height: 130px;"
+            + "  padding-top: 10px;"
             + "  background: #f0f0f0;"
             + "  z-index: 2147483647;"
             + "  border-bottom: solid 2px black;"
@@ -37,26 +101,36 @@
             + "} "
             + "#TNK_CARD_FRAME .txt {"
             + "  border: 2px inset;"
-            + "  margin: 0px;"
-            + "  padding: 1px;"
+            + "  margin: 2px;"
+            + "  padding: 4px;"
             + "  background: white;"
             + "} "
             + "#TNK_CARD_FRAME .btn {"
             + "  border: 1px solid;"
             + "  border-radius: 4px;"
-            + "  margin: 0px;"
+            + "  margin: 5px;"
             + "  padding: 4px 8px;"
             + "  color: #333;"
             + "  background-color: #fff;"
             + "  border-color: #ccc;"
+            + "} "
+            + "#TNK_CARD_FRAME .btn-primary {"
+            + "  color: #fff;"
+            + "  background-color: #428bca;"
+            + "  border-color: #357ebd;"
+            + "} "
+            + "#TNK_CARD_FRAME .btn-warning {"
+            + "  color: #fff;"
+            + "  background-color: #f0ad4e;"
+            + "  border-color: #eea236;"
             + "}";
 
       var lf = '<div id="TNK_CARD_FRAME">'
             + '  <form id="TNK_CARD_FORM">'
             + '    <input type="text" id="TNK_CARD_FORM_ID" class="txt" placeholder="Login ID"><br>'
             + '    <input type="password" id="TNK_CARD_FORM_PASSWORD" class="txt" placeholder="Password"><br>'
-            + '    <input type="submit" id="TNK_CARD_FORM_LOGIN_BTN" class="btn" value="Login">'
-            + '    <input type="button" id="TNK_CARD_FORM_CLOSE_BTN" class="btn" value="Close">'
+            + '    <input type="submit" id="TNK_CARD_FORM_LOGIN_BTN" class="btn btn-primary" value="ログイン">'
+            + '    <input type="button" id="TNK_CARD_FORM_CLOSE_BTN" class="btn btn-warning" value="閉じる">'
             + '  </form>'
             + '</div>';
 
@@ -64,37 +138,51 @@
       e.innerHTML = '<style id="TNK_CARD_STYLE">' + lcss + "</style>" + lf;
       document.body.appendChild(e);
 
+      setTimeout(function(){
+          window.scrollTo(0, window.pageYOffset + 1);
+      }, 100);
+
       $('#TNK_CARD_FORM').submit(function(event) {
         event.preventDefault();
+
+        $('#TNK_CARD_FORM_LOGIN_BTN').attr('disabled', true);
 
         var loginId = $('#TNK_CARD_FORM_ID').val();
         var loginPassword = $('#TNK_CARD_FORM_PASSWORD').val();
 
-        NCMB.User.logIn(loginId, loginPassword, {
+        Parse.User.logIn(loginId, loginPassword, {
           success: function(user) {
             // 成功
-            //alert("success");
-            removeLoginForm();
+            removeFrame();
             readCard();
           },
           error: function(user, error) {
             // エラー
-            alert("ログインできません[" + error.code + "]");
-            console.log("error:" + error.message);
+            $('#TNK_CARD_FORM_LOGIN_BTN').attr('disabled', false);
+            if (error.code == Parse.Error.OBJECT_NOT_FOUND) {
+              alert('IDもしくはパスワードのエラー');
+            } else {
+              alert('ログインできません:' + error.code);
+              console.log(error);
+            }
           }
         });
       });
 
       $('#TNK_CARD_FORM_CLOSE_BTN').click(function() {
-        removeLoginForm();
+        removeFrame();
       });
     };
 
     /**
-     * ログインフォームを消す
+     * 表示パネルを消す
      */
-    var removeLoginForm = function() {
+    var removeFrame = function() {
       var e = document.getElementById("TNK_CARD_FRAME");
+      if (e) {
+        e.parentNode.removeChild(e);
+      }
+      e = document.getElementById("TNK_CARD_STYLE");
       if (e) {
         e.parentNode.removeChild(e);
       }
@@ -157,9 +245,9 @@
      * カード保存処理
      */
     var _saveCard = function(sendData, existsData) {
-      var Card = NCMB.Object.extend("Card");
+      var Card = Parse.Object.extend("Card");
 
-      var user = NCMB.User.current();
+      var user = Parse.User.current();
 
       var list = [];
       sendData.forEach(function(data) {
@@ -180,22 +268,22 @@
         card.set(data);
         card.set("user", user);
 
-        var acl = new NCMB.ACL();
-        acl.setReadAccess(user, true);
-        acl.setWriteAccess(user, true);
+        var acl = new Parse.ACL(user);
+        //acl.setReadAccess(user, true);
+        //acl.setWriteAccess(user, true);
         card.setACL(acl);
 
         list.push(card);
       });
 
-      NCMB.Object.saveAll(list, {
+      Parse.Object.saveAll(list, {
           success: function(list) {
             console.log('success');
-            alert('カード情報を送信しました');
+            messagePanel('送信完了!!!', false);
           },
           error: function(error) {
             console.log('error:' + error.code + ' ' + error.message);
-            alert('error:' + error.code + ' ' + error.message);
+            messagePanel('エラーが発生しました:' + error.code);
           }
       });
     };
@@ -204,12 +292,16 @@
      * カード情報をbackendに保存
      */
     var saveCard = function(sendData) {
-      var Card = NCMB.Object.extend("Card");
 
-      var user = NCMB.User.current();
+      // パネル表示
+      messagePanel("カード情報を送信しています", true);
+
+      var Card = Parse.Object.extend("Card");
+
+      var user = Parse.User.current();
 
       // 同じカードが登録されていないか検索
-      var query = new NCMB.Query(Card);
+      var query = new Parse.Query(Card);
       query.equalTo("user", user);
       var cardList = [];
       sendData.forEach(function(data) {
@@ -225,7 +317,7 @@
         error: function(error) {
           // エラー
           console.log('error:' + error.code + ' ' + error.message);
-          alert('error:' + error.code + ' ' + error.message);
+          alert('エラーが発生しました:' + error.code);
           loginForm();
         }
       }); 
@@ -266,7 +358,7 @@
       //console.log(d);
 
       if (d.length == 0) {
-        alert('カードが見つかりません');
+        alert('カード情報が見つかりません');
         return;
       }
 
@@ -275,9 +367,9 @@
 
     var $ = jQuery.noConflict(true);
 
-    NCMB.initialize(TNK_CARD_APP_KEY, TNK_CARD_CLIENT_KEY);
+    Parse.initialize(TNK_CARD_APP_ID, TNK_CARD_JS_KEY);
 
-    if (NCMB.User.current()) {
+    if (Parse.User.current()) {
       console.log('login!');
       readCard();
     } else {
@@ -300,7 +392,7 @@
   };
 
   loadSync(
-    'http://mb.cloud.nifty.com/sdk/javascript/ncmb-1.2.0.min.js',
+    TNK_CARD_URL + 'js/parse-1.2.16.js',
     function() {
       loadSync(
         "//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js",

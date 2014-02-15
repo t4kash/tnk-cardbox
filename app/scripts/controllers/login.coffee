@@ -3,7 +3,7 @@
 angular.module('tnkCardboxApp')
   .controller 'LoginCtrl', ($scope, $location) ->
 
-    if NCMB.User.current()
+    if Parse.User.current()
       $location.path "/main"
       return
 
@@ -16,14 +16,14 @@ angular.module('tnkCardboxApp')
 
       $scope.processing = true
 
-      NCMB.User.logIn($scope.loginId, $scope.loginPassword, {
+      Parse.User.logIn($scope.loginId, $scope.loginPassword, {
         success: (user) ->
           # 成功
           $scope.gotoMain()
         error: (user, error) ->
           # エラー
           console.log error
-          if error.code == 'E401002'
+          if error.code == Parse.Error.OBJECT_NOT_FOUND
             alert "IDもしくはパスワードのエラー"
           else
             alert "ログインできません:" + error.code
@@ -41,19 +41,14 @@ angular.module('tnkCardboxApp')
       if !confirm "ユーザー登録を行いますか？"
         return
 
-      user = new NCMB.User()
-      user.set("userName", $scope.loginId)
-      user.set("password", $scope.loginPassword)
-      #user.set("mailAddress", "email@example.com")
-
-      user.signUp(null, {
+      Parse.User.signUp($scope.loginId, $scope.loginPassword, { ACL: new Parse.ACL() }, {
         success: (user) ->
           # 成功
           $scope.gotoMain()
         error: (user, error) ->
           # エラー
           console.log error
-          if error.code == 'E409001'
+          if error.code == Parse.Error.USERNAME_TAKEN
             alert "すでに使用されているIDです"
           else
             alert "登録エラー:" + error.code

@@ -1,11 +1,15 @@
 <div class="container">
-  <div class="row">
-    <button type="button" class="col-sm-offset-8 btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
-    <button type="button" class="btn btn-default" ng-click="logout()"><i class="fa fa-sign-out"> ログアウト</i></button>
-  </div>
 
   <div class="row">
-    <input type="text" ng-model="searchWord">
+    <div class="panel panel-default col-sm-6">
+      <div class="panel-body">
+        <input type="text" ng-model="searchWord" placeholder="キーワード">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
+      <button type="button" class="btn btn-default" ng-click="logout()"><i class="fa fa-sign-out"> ログアウト</i></button>
+    </div>
   </div>
   
   <div class="row">
@@ -13,15 +17,15 @@
       <thead>
         <tr>
           <th>名前 <a href ng-click="sort('name')"><i class="fa" ng-class="sortClass('name')"></i></a></th>
-          <th>レア度 <a href ng-click="sort('rarity')"><i class="fa" ng-class="sortClass('rarity')"></i></a></th>
+          <th>レア <a href ng-click="sort('rarity')"><i class="fa" ng-class="sortClass('rarity')"></i></a></th>
           <th>地域 <a href ng-click="sort('region')"><i class="fa" ng-class="sortClass('region')"></i></a></th>
           <th>Lv <a href ng-click="sort('level')"><i class="fa" ng-class="sortClass('level')"></i></a></th>
-          <th>Cost <a href ng-click="sort('cost')"><i class="fa" ng-class="sortClass('cost')"></i></a></th>
-          <th>Attack <a href ng-click="sort('attack')"><i class="fa" ng-class="sortClass('attack')"></i></a></th>
-          <th>Defence <a href ng-click="sort('defence')"><i class="fa" ng-class="sortClass('defence')"></i></a></th>
-          <th>Type <a href ng-click="sort('type')"><i class="fa" ng-class="sortClass('type')"></i></a></th>
-          <th>skill <a href ng-click="sort('skill')"><i class="fa" ng-class="sortClass('skill')"></i></a></th>
-          <th>skillLevel <a href ng-click="sort('skillLevel')"><i class="fa" ng-class="sortClass('skillLevel')"></i></a></th>
+          <th>コスト <a href ng-click="sort('cost')"><i class="fa" ng-class="sortClass('cost')"></i></a></th>
+          <th>攻撃 <a href ng-click="sort('attack')"><i class="fa" ng-class="sortClass('attack')"></i></a></th>
+          <th>防御 <a href ng-click="sort('defence')"><i class="fa" ng-class="sortClass('defence')"></i></a></th>
+          <th>タイプ <a href ng-click="sort('type')"><i class="fa" ng-class="sortClass('type')"></i></a></th>
+          <th class="hidden-xs hidden-sm">スキル <a href ng-click="sort('skill')"><i class="fa" ng-class="sortClass('skill')"></i></a></th>
+          <th class="hidden-xs hidden-sm">スキルLv <a href ng-click="sort('skillLevel')"><i class="fa" ng-class="sortClass('skillLevel')"></i></a></th>
         </tr>
       </thead>
       <tbody>
@@ -34,8 +38,8 @@
           <td>{{item.attack}}</td>
           <td>{{item.defence}}</td>
           <td>{{item.type}}</td>
-          <td>{{item.skill}}</td>
-          <td>{{item.skillLevel}}</td>
+          <td class="hidden-xs hidden-sm">{{item.skill}}</td>
+          <td class="hidden-xs hidden-sm">{{item.skillLevel}}</td>
         </tr>
       </tbody>
     </table>
