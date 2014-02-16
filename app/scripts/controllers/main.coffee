@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'MainCtrl', ($scope, $location) ->
+  .controller 'MainCtrl', ($scope, $location, cardRegion) ->
 
     # ログアウト
     $scope.logout = ->
@@ -13,6 +13,8 @@ angular.module('tnkCardboxApp')
       return
 
     # init
+    $scope.prefectures = cardRegion.prefectures
+    $scope.regions = cardRegion.regions
     $scope.items = []
 
     $scope.predicate = 'rarity'
@@ -58,6 +60,20 @@ angular.module('tnkCardboxApp')
         return 'fa-sort-desc'
       else
         return 'fa-sort-asc'
+
+    # select comparator
+    $scope.strictComparator = (actual, expected) ->
+      if expected == ""
+        return true
+      else
+        return angular.equals(expected, actual)
+
+    # 地方検索用filter
+    $scope.regionFilter = (item) ->
+      if $scope.searchRegion == ""
+        return true
+      else
+        return $scope.searchRegion == cardRegion.regionByPrefecture item.region
 
     # CSV data
     $scope.csvData = ->
