@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .service 'cardRegion', () ->
+  .service 'cardAttribute', () ->
     # 県
     this.prefectures = [
       '北海道'
@@ -122,9 +122,33 @@ angular.module('tnkCardboxApp')
       '沖縄': '九州・沖縄'
     }
 
+    # カードタイプ
+    this.cardTypes = [
+      '妖怪'
+      '名物'
+      '飲食'
+      '神秘'
+      '武人'
+      '偉人'
+      '知性派'
+      '姫'
+      '伝承'
+      'お雑煮'
+    ]
+
+    # カードレア度
+    this.rarities = [
+      'SP'
+      'SSR'
+      'SR'
+      'HR'
+      'R'
+      'HN'
+      'N'
+    ]
+
     # 県の地域を返す
     this.regionByPrefecture = (prefecture) ->
       return this.regionMap[prefecture]
 
     @
-

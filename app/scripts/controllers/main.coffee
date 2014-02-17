@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'MainCtrl', ($scope, $location, cardRegion) ->
+  .controller 'MainCtrl', ($scope, $location, cardAttribute, rarityFilter) ->
 
     # ログアウト
     $scope.logout = ->
@@ -13,8 +13,10 @@ angular.module('tnkCardboxApp')
       return
 
     # init
-    $scope.prefectures = cardRegion.prefectures
-    $scope.regions = cardRegion.regions
+    $scope.prefectures = cardAttribute.prefectures
+    $scope.regions = cardAttribute.regions
+    $scope.cardTypes = cardAttribute.cardTypes
+    $scope.rarities = cardAttribute.rarities
     $scope.items = []
 
     $scope.predicate = 'rarity'
@@ -69,11 +71,18 @@ angular.module('tnkCardboxApp')
         return angular.equals(expected, actual)
 
     # 地方検索用filter
-    $scope.regionFilter = (item) ->
-      if $scope.searchRegion == ""
+    $scope.regionFilterFunc = (item) ->
+      if !$scope.searchRegion? || $scope.searchRegion == ""
         return true
       else
-        return $scope.searchRegion == cardRegion.regionByPrefecture item.region
+        return $scope.searchRegion == cardAttribute.regionByPrefecture item.region
+
+    # レア度検索用filter
+    $scope.rarityFilterFunc = (item) ->
+      if !$scope.searchRarity? || $scope.searchRarity == ""
+        return true
+      else
+        return $scope.searchRarity == rarityFilter(item.rarity)
 
     # CSV data
     $scope.csvData = ->
