@@ -18,13 +18,20 @@ angular.module('tnkCardboxApp')
     $scope.cardTypes = cardAttribute.cardTypes
     $scope.rarities = cardAttribute.rarities
     $scope.items = []
+    $scope.loading = false
 
-    $scope.predicate = 'rarity'
+    $scope.predicateColumn = 'attack'
+    $scope.predicate = 'attack'
     $scope.reverse = true
 
-    $scope.fetchCard = ->
+    # fetch card list
+    $scope.fetchCardList = ->
+      $scope.loading = true
+      $scope.items = []
+
       Card = Parse.Object.extend "Card"
       query = new Parse.Query Card
+      query.limit 1000
       query.equalTo("user", Parse.User.current())
 
       query.find({
@@ -35,6 +42,8 @@ angular.module('tnkCardboxApp')
 
             for result in results
               $scope.items.push result.attributes
+
+            $scope.loading = false
           )
         error: (error) ->
           # エラー
@@ -42,21 +51,31 @@ angular.module('tnkCardboxApp')
           if error.code == Parse.Error.OBJECT_NOT_FOUND
             $scope.logout()
 
+          $scope.$apply( ->
+            $scope.loading = false
+          )
       })
 
-    $scope.fetchCard()
+    $scope.fetchCardList()
 
     # change sort order
     $scope.sort = (column) ->
-      if column == $scope.predicate
+      if column == $scope.predicateColumn
         $scope.reverse = !$scope.reverse
       else
-        $scope.predicate = column
+        $scope.predicateColumn = column
+
+        if column == 'rarity'
+          $scope.predicate = (item) ->
+            return cardAttribute.rarities.indexOf(rarityFilter(item.rarity))
+        else
+          $scope.predicate = column
+
         $scope.reverse = false
 
     # css class for sort column
     $scope.sortClass = (column) ->
-      if column != $scope.predicate
+      if column != $scope.predicateColumn
         return 'fa-sort'
       else if $scope.reverse
         return 'fa-sort-desc'
