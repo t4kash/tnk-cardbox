@@ -18,6 +18,7 @@ angular.module('tnkCardboxApp')
     $scope.cardTypes = cardAttribute.cardTypes
     $scope.rarities = cardAttribute.rarities
     $scope.items = []
+    $scope.filteredItems = []
     $scope.loading = false
 
     $scope.predicateColumn = 'attack'
@@ -41,6 +42,7 @@ angular.module('tnkCardboxApp')
             $scope.items = []
 
             for result in results
+              result.attributes.selected = false
               $scope.items.push result.attributes
 
             $scope.loading = false
@@ -102,6 +104,44 @@ angular.module('tnkCardboxApp')
         return true
       else
         return $scope.searchRarity == rarityFilter(item.rarity)
+
+    # 全選択
+    $scope.toggleAll = ->
+      angular.forEach($scope.filteredItems, (item) ->
+        item.selected = $scope.checkboxAll
+      )
+
+    # delete card
+    $scope.deleteCard = ->
+      cardIds = []
+      angular.forEach($scope.items, (item, i) ->
+        if item.selected
+          cardIds.push item.cardId
+      )
+      if cardIds.length == 0
+        alert "削除するカード情報を選択してください"
+      else
+        if !confirm(cardIds.length + "件のカード情報を削除します")
+          return
+
+      query = new Parse.Query("Card")
+      query.limit(1000)
+      query.equalTo("user", Parse.User.current())
+      query.containedIn("cardId", cardIds)
+      query.find().then((results) ->
+        promise = Parse.Promise.as()
+        angular.forEach(results, (result) ->
+          promise = promise.then(->
+            return result.destroy()
+          )
+        )
+      )
+
+      # itemsから消去
+      $scope.items = $scope.items.filter((item, index, self) ->
+        return !item.selected
+      )
+
 
     # CSV data
     $scope.csvData = ->
