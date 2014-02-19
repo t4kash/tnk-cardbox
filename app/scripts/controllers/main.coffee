@@ -146,7 +146,7 @@ angular.module('tnkCardboxApp')
     # CSV data
     $scope.csvData = ->
       csv = []
-      angular.forEach($scope.items, (item, i) ->
+      angular.forEach($scope.filteredItems, (item, i) ->
         csv.push({
           name: item.name
           nameKana: item.nameKana
