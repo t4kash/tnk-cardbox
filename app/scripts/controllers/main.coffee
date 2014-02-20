@@ -124,22 +124,34 @@ angular.module('tnkCardboxApp')
         if !confirm(cardIds.length + "件のカード情報を削除します")
           return
 
+      $scope.loading = true
+
       query = new Parse.Query("Card")
       query.limit(1000)
       query.equalTo("user", Parse.User.current())
       query.containedIn("cardId", cardIds)
+
       query.find().then((results) ->
+        # promise数珠つなぎで消していく
         promise = Parse.Promise.as()
         angular.forEach(results, (result) ->
           promise = promise.then(->
+            angular.forEach($scope.items, (item, i) ->
+              if item.cardId == result.attributes.cardId
+                $scope.$apply( ->
+                  $scope.items.splice(i, 1)
+                )
+            )
             return result.destroy()
           )
         )
-      )
 
-      # itemsから消去
-      $scope.items = $scope.items.filter((item, index, self) ->
-        return !item.selected
+        # 終わったらloading off
+        promise.always( ->
+          $scope.$apply( ->
+            $scope.loading = false
+          )
+        )
       )
 
 

@@ -54,7 +54,7 @@
           <button type="button" class="btn btn-default" ng-click="fetchCardList()"><i class="fa fa-refresh"></i></button>
           <button type="button" class="btn btn-default" ng-click="deleteCard()"><i class="fa fa-trash-o"></i></button>
           <button type="button" class="btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
-          <label>{{filteredItems.length}}件</label>
+          <label> {{filteredItems.length}}件</label>
         </div>
         <div class="form-group">
           <img src="images/loading.gif" ng-show="loading">
@@ -67,8 +67,8 @@
         <tr>
           <th><input type="checkbox" ng-model="checkboxAll" ng-change="toggleAll()"></th>
           <th>名前 <a href ng-click="sort('name')"><i class="fa" ng-class="sortClass('name')"></i></a></th>
-          <th class="hidden-xs">レア <a href ng-click="sort('rarity')"><i class="fa" ng-class="sortClass('rarity')"></i></a></th>
-          <th class="hidden-xs">地域 <a href ng-click="sort('region')"><i class="fa" ng-class="sortClass('region')"></i></a></th>
+          <th>レア <a href ng-click="sort('rarity')"><i class="fa" ng-class="sortClass('rarity')"></i></a></th>
+          <th>地域 <a href ng-click="sort('region')"><i class="fa" ng-class="sortClass('region')"></i></a></th>
           <th class="hidden-xs">Lv <a href ng-click="sort('level')"><i class="fa" ng-class="sortClass('level')"></i></a></th>
           <th>コスト <a href ng-click="sort('cost')"><i class="fa" ng-class="sortClass('cost')"></i></a></th>
           <th>攻撃 <a href ng-click="sort('attack')"><i class="fa" ng-class="sortClass('attack')"></i></a></th>
@@ -82,8 +82,8 @@
         <tr ng-repeat="item in filteredItems = (items | filter:searchWord | filter:searchSelector:strictComparator | filter:regionFilterFunc | filter:rarityFilterFunc | orderBy:predicate:reverse)">
           <td><input type="checkbox" ng-model="item.selected"></td>
           <td>{{item.name}}</td>
-          <td class="hidden-xs">{{item.rarity | rarity}}</td>
-          <td class="hidden-xs">{{item.region}}</td>
+          <td>{{item.rarity | rarity}}</td>
+          <td>{{item.region}}</td>
           <td class="hidden-xs">{{item.level}}/{{item.maxLevel}}</td>
           <td>{{item.cost}}</td>
           <td>{{item.attack}}</td>
