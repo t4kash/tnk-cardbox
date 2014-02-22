@@ -42,8 +42,10 @@ angular.module('tnkCardboxApp')
             $scope.items = []
 
             for result in results
-              result.attributes.selected = false
-              $scope.items.push result.attributes
+              item = angular.copy result.attributes
+              item.id = result.id
+              item.selected = false
+              $scope.items.push item
 
             $scope.loading = false
           )
@@ -114,10 +116,10 @@ angular.module('tnkCardboxApp')
     # delete card
     $scope.deleteCard = ->
       cardIds = []
-      angular.forEach($scope.items, (item, i) ->
+      for item in $scope.items
         if item.selected
-          cardIds.push item.cardId
-      )
+          cardIds.push item.id
+
       if cardIds.length == 0
         alert "削除するカード情報を選択してください"
       else
@@ -128,8 +130,8 @@ angular.module('tnkCardboxApp')
 
       query = new Parse.Query("Card")
       query.limit(1000)
+      query.containedIn("objectId", cardIds)
       query.equalTo("user", Parse.User.current())
-      query.containedIn("cardId", cardIds)
 
       query.find().then((results) ->
         # promise数珠つなぎで消していく
@@ -137,7 +139,7 @@ angular.module('tnkCardboxApp')
         angular.forEach(results, (result) ->
           promise = promise.then(->
             angular.forEach($scope.items, (item, i) ->
-              if item.cardId == result.attributes.cardId
+              if item.id == result.id
                 $scope.$apply( ->
                   $scope.items.splice(i, 1)
                 )
@@ -162,7 +164,7 @@ angular.module('tnkCardboxApp')
         csv.push({
           name: item.name
           nameKana: item.nameKana
-          rarity: item.rarity
+          rarity: rarityFilter(item.rarity)
           region: item.region
           level: item.level
           maxLevel: item.maxLevel
