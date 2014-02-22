@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'dist'
+      dist: 'parse/public'
     },
 
     // Watches files for changes and runs tasks based on the changed files
@@ -252,10 +252,11 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          collapseWhitespace: true,
+          collapseWhitespace: false,
           collapseBooleanAttributes: true,
           removeCommentsFromCDATA: true,
-          removeOptionalTags: true
+          removeOptionalTags: true,
+          removeComments: true
         },
         files: [{
           expand: true,
@@ -299,7 +300,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'components/**/*',
+            //'components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*',
             'js/{,*/}*.js'

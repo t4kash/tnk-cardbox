@@ -5,7 +5,7 @@
 
   var TNK_CARD_APP_ID = "4ofkpZSUMjDDFQowUnV7rrdTPb01XXhuKncyQt5b";
   var TNK_CARD_JS_KEY = "BSr5oeZvUrD3ZZZly8W170VQ81A9Q0stDU0f61iL";
-  var TNK_CARD_URL = "http://t4kash.github.io/tnk-cardbox/";
+  var TNK_CARD_URL = "http://tnkcb.parseapp.com/";
 
   /**
    * main
