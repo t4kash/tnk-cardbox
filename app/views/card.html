@@ -1,0 +1,138 @@
+<div ng-include="'views/header.html'"></div>
+
+<div class="container">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <a href="#/main" class="btn btn-default"><i class="fa fa-reply"></i></a>
+    </div>
+  </form>
+  <hr>
+
+  <p class="text-center" ng-show="loading">
+    <img src="images/loading.gif">
+  </p>
+
+  <form name="form" class="form-horizontal" role="form" ng-submit="save()" ng-hide="loading">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">名前</label>
+      <div class="col-sm-10">
+        <input type="text" name="cardName" class="form-control" ng-model="item.name" required>
+        <div class="text-danger" ng-show="form.cardName.$invalid">必須</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">よみ</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="item.nameKana">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">レア</label>
+      <div class="col-sm-10">
+        <select name="rarity" class="form-control" ng-model="item.rarity" required>
+          <option ng-repeat="rare in rarities" value="{{rare.value}}">{{rare.name}}</option>
+        </select>
+        <div class="text-danger" ng-show="form.rarity.$invalid">必須</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">地域</label>
+      <div class="col-sm-10">
+        <select name="region" class="form-control" ng-model="item.region" required>
+          <option ng-repeat="region in regions" value="{{region}}">{{region}}</option>
+        </select>
+        <div class="text-danger" ng-show="form.region.$invalid">必須</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Lv</label>
+      <div class="col-sm-10">
+        <input type="number" name="level" class="form-control" ng-model="item.level" min="1" max="999" required>
+        <div class="text-danger" ng-show="form.level.$invalid">必須 1-999</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Max Lv</label>
+      <div class="col-sm-10">
+        <input type="number" name="maxLevel" class="form-control" ng-model="item.maxLevel" min="1" max="999">
+        <div class="text-danger" ng-show="form.maxLevel.$invalid">1-999</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">コスト</label>
+      <div class="col-sm-10">
+        <input type="number" name="cost" class="form-control" ng-model="item.cost" min="1" max="99" required>
+        <div class="text-danger" ng-show="form.cost.$invalid">必須 1-99</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">攻撃</label>
+      <div class="col-sm-10">
+        <input type="number" name="attack" class="form-control" ng-model="item.attack" min="1" max="999999" required>
+        <div class="text-danger" ng-show="form.attack.$invalid">必須 1-999999</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">防御</label>
+      <div class="col-sm-10">
+        <input type="number" name="defence" class="form-control" ng-model="item.defence" min="1" max="999999" required>
+        <div class="text-danger" ng-show="form.defence.$invalid">必須 1-999999</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">タイプ</label>
+      <div class="col-sm-10">
+        <select name="cardType" class="form-control" ng-model="item.type" required>
+          <option ng-repeat="type in cardTypes" value="{{type}}">{{type}}</option>
+        </select>
+        <div class="text-danger" ng-show="form.cardType.$invalid">必須</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキル名</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="item.skillName">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキルLv</label>
+      <div class="col-sm-10">
+        <input type="number" name="skillLevel" class="form-control" ng-model="item.skillLevel" min="1" max="99">
+        <div class="text-danger" ng-show="form.skillLevel.$invalid">1-99</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキル説明</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="item.skill">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキルターゲット</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="item.skillTarget">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <p class="text-danger" ng-show="errorMessage != ''">{{errorMessage}}</p>
+        <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || processing">保存</button>
+      </div>
+    </div>
+  </form>
+          
+</div><!-- /.container -->

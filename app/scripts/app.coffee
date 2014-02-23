@@ -17,6 +17,12 @@ angular.module('tnkCardboxApp', [
       .when '/main',
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
+      .when '/card',
+        templateUrl: 'views/card.html'
+        controller: 'CardCtrl'
+      .when '/card/:objectId',
+        templateUrl: 'views/card.html'
+        controller: 'CardCtrl'
       .otherwise
         redirectTo: '/'
   ]

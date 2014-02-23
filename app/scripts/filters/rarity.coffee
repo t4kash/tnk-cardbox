@@ -5,6 +5,7 @@ angular.module('tnkCardboxApp')
     (input) ->
       rare = {
         normal: "N"
+        hnormal: "HN"
         rare: "R"
         hrare: "HR"
         srare: "SR"

@@ -147,6 +147,16 @@ angular.module('tnkCardboxApp')
       'N'
     ]
 
+    this.rarities2 = [
+      {name: 'SP', value: 'special'}
+      {name: 'SSR', value: 'ssrare'}
+      {name: 'SR', value: 'srare'}
+      {name: 'HR', value: 'hrare'}
+      {name: 'R', value: 'rare'}
+      {name: 'HN', value: 'hnormal'}
+      {name: 'N', value: 'normal'}
+    ]
+
     # 県の地域を返す
     this.regionByPrefecture = (prefecture) ->
       return this.regionMap[prefecture]

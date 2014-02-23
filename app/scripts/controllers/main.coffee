@@ -1,12 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'MainCtrl', ($scope, $location, cardAttribute, rarityFilter) ->
-
-    # ログアウト
-    $scope.logout = ->
-      Parse.User.logOut()
-      $location.path "/"
+  .controller 'MainCtrl', ($scope, $location, cardAttribute, cardService, rarityFilter) ->
 
     if !Parse.User.current()
       $scope.logout()
@@ -30,12 +25,7 @@ angular.module('tnkCardboxApp')
       $scope.loading = true
       $scope.items = []
 
-      Card = Parse.Object.extend "Card"
-      query = new Parse.Query Card
-      query.limit 1000
-      query.equalTo("user", Parse.User.current())
-
-      query.find({
+      cardService.findCardList({
         success: (results) ->
           console.log "total: " + results.length
           $scope.$apply( ->
@@ -128,12 +118,7 @@ angular.module('tnkCardboxApp')
 
       $scope.loading = true
 
-      query = new Parse.Query("Card")
-      query.limit(1000)
-      query.containedIn("objectId", cardIds)
-      query.equalTo("user", Parse.User.current())
-
-      query.find().then((results) ->
+      cardService.findCardListInIds(cardIds).then((results) ->
         # promise数珠つなぎで消していく
         promise = Parse.Promise.as()
         angular.forEach(results, (result) ->

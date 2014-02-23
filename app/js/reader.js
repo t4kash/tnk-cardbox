@@ -53,7 +53,8 @@
       lf = lf + ' ' + message + '<br>'
 
       if (!loading) {
-        lf = lf + ' <input type="button" id="TNK_CARD_FORM_LOGOUT_BTN" class="btn btn-warning" value="ログアウト">'
+        lf = lf + ' <input type="button" id="TNK_CARD_FORM_CLOSE_BTN" class="btn btn-primary" value="閉じる">';
+        lf = lf + ' <input type="button" id="TNK_CARD_FORM_LOGOUT_BTN" class="btn btn-warning" value="ログアウト">';
       }
 
       lf = lf + '</div>';
@@ -74,7 +75,11 @@
 
         setTimeout(function() {
           removeFrame();
-        }, 5000);
+        }, 3000);
+
+        $('#TNK_CARD_FORM_CLOSE_BTN').click(function() {
+          removeFrame();
+        });
       }
 
     };
@@ -207,9 +212,11 @@
     /**
      * Level関連のパース
      */
-    var parseLevel = function(text) {
-      var m = text.match(/^([0-9]+)\/([0-9]+)(★*)$/);
-      return {"level": parseInt(m[1]), "maxLevel": parseInt(m[2]), "extendLevel": m[3].length};
+    var parseLevel = function(cardLevel) {
+      var m = cardLevel.text().match(/^([0-9]+)\/([0-9]+)(★*)$/);
+      var extendLevel = cardLevel.find('.white').text().length;
+      console.log(cardLevel.find('.white').text());
+      return {"level": parseInt(m[1]), "maxLevel": parseInt(m[2]), "extendLevel": extendLevel};
     };
 
     /**
@@ -219,7 +226,7 @@
       var cardName = card.find('.cardName');
       var cardSkill = card.find('.cardSkill');
 
-      var level = parseLevel(card.find('.cardLevelValue').text());
+      var level = parseLevel(card.find('.cardLevelValue'));
 
       return {
         "cardId": id,
@@ -294,7 +301,7 @@
     var saveCard = function(sendData) {
 
       // パネル表示
-      messagePanel("カード情報を送信しています", true);
+      messagePanel(sendData.length + "件のカード情報を送信しています", true);
 
       var Card = Parse.Object.extend("Card");
 
@@ -302,6 +309,7 @@
 
       // 同じカードが登録されていないか検索
       var query = new Parse.Query(Card);
+      query.limit(1000);
       query.equalTo("user", user);
       var cardList = [];
       sendData.forEach(function(data) {
@@ -347,7 +355,14 @@
           continue;
         }
 
-        d.push(makeCardInfo(id, card));
+        var cardInfo = makeCardInfo(id, card);
+
+        if (cdId == '' && cardInfo.level == 1) {
+          // レベル1のカードは除く
+          continue;
+        }
+
+        d.push(cardInfo);
 
         if (id == cdId) {
           // dialogに出しているカードなので終わり

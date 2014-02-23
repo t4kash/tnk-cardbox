@@ -1,24 +1,7 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#/main">天クロCardBox</a>
-    </div>
-
-    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href ng-click="logout()"><i class="fa fa-sign-out"></i>ログアウト</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  <div>
-</nav>
+<div ng-include="'views/header.html'"></div>
 
 <div class="container">
+
 
   <div class="panel panel-default" id="card-list-panel">
     <div class="panel-body">
@@ -81,7 +64,7 @@
       <tbody>
         <tr ng-repeat="item in filteredItems = (items | filter:searchWord | filter:searchSelector:strictComparator | filter:regionFilterFunc | filter:rarityFilterFunc | orderBy:predicate:reverse)">
           <td><input type="checkbox" ng-model="item.selected"></td>
-          <td>{{item.name}}</td>
+          <td><a href="#/card/{{item.id}}">{{item.name}}</a></td>
           <td>{{item.rarity | rarity}}</td>
           <td>{{item.region}}</td>
           <td class="hidden-xs">{{item.level}}/{{item.maxLevel}}</td>
