@@ -22,7 +22,10 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'parse/public'
+      dist: 'parse/public',
+      baasAppId: require('./config.json').baasAppId,
+      baasJsKey: require('./config.json').baasJsKey,
+      baseUrl: require('./config.json').baseUrl
     },
 
     // Watches files for changes and runs tasks based on the changed files
@@ -373,6 +376,37 @@ module.exports = function (grunt) {
       }
     },
 
+    replace: {
+      options: {
+        patterns: [
+          {
+            match: 'TNK_CARD_APP_ID',
+            replacement: '<%= yeoman.baasAppId %>'
+          },
+          {
+            match: 'TNK_CARD_JS_KEY',
+            replacement: '<%= yeoman.baasJsKey %>'
+          },
+          {
+            match: 'TNK_CARD_URL',
+            replacement: '<%= yeoman.baseUrl %>'
+          }
+        ]
+      },
+      server: {
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.app %>/js/reader.js'], dest: '.tmp/js/'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/app.js'], dest: '.tmp/scripts/'}
+        ]
+      },
+      dist: {
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/js/reader.js'], dest: '<%= yeoman.dist %>/js/'},
+          {expand: true, flatten: true, src: ['.tmp/concat/scripts/scripts.js'], dest: '.tmp/concat/scripts/'}
+        ]
+      }
+    },
+
     // Test settings
     karma: {
       unit: {
@@ -392,6 +426,7 @@ module.exports = function (grunt) {
       'clean:server',
       'bower-install',
       'concurrent:server',
+      'replace:server',
       'autoprefixer',
       'connect:livereload',
       'watch'
@@ -420,6 +455,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
+    'replace:dist',
     'cdnify',
     'cssmin',
     'uglify',

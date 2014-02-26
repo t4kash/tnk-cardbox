@@ -1,0 +1,5 @@
+{
+  "baasAppId": "Parse application id",
+  "baasJsKey": "Parse javascript key",
+  "baseUrl": "http://www.example.com/"
+}

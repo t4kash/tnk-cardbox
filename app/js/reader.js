@@ -3,9 +3,9 @@
  */
 (function() {
 
-  var TNK_CARD_APP_ID = "4ofkpZSUMjDDFQowUnV7rrdTPb01XXhuKncyQt5b";
-  var TNK_CARD_JS_KEY = "BSr5oeZvUrD3ZZZly8W170VQ81A9Q0stDU0f61iL";
-  var TNK_CARD_URL = "http://tnkcb.parseapp.com/";
+  var TNK_CARD_APP_ID = "@@TNK_CARD_APP_ID";
+  var TNK_CARD_JS_KEY = "@@TNK_CARD_JS_KEY";
+  var TNK_CARD_URL = "@@TNK_CARD_URL";
 
   /**
    * main
