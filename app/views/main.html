@@ -2,7 +2,6 @@
 
 <div class="container">
 
-
   <div class="panel panel-default" id="card-list-panel">
     <div class="panel-body">
       <form class="form-inline" role="form">
@@ -34,10 +33,10 @@
           </select>
         </div>
         <div class="form-group">
-          <button type="button" class="btn btn-default" ng-click="fetchCardList()"><i class="fa fa-refresh"></i></button>
+          <button type="button" class="btn btn-default" ng-click="fetchCardList(true)"><i class="fa fa-refresh"></i></button>
           <button type="button" class="btn btn-default" ng-click="deleteCard()"><i class="fa fa-trash-o"></i></button>
           <button type="button" class="btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
-          <label>{{filteredItems.length}}件</label>
+          <label>{{filteredCards.length}}件</label>
         </div>
         <div class="form-group">
           <img src="images/loading.gif" ng-show="loading">
@@ -62,18 +61,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in filteredItems = (items | filter:searchWord | filter:searchSelector:strictComparator | filter:regionFilterFunc | filter:rarityFilterFunc | orderBy:predicate:reverse)">
-          <td><input type="checkbox" ng-model="item.selected"></td>
-          <td><a href="#/card/{{item.id}}">{{item.name}}</a></td>
-          <td>{{item.rarity | rarity}}</td>
-          <td>{{item.region}}</td>
-          <td class="hidden-xs">{{item.level}}/{{item.maxLevel}}</td>
-          <td>{{item.cost}}</td>
-          <td>{{item.attack}}</td>
-          <td>{{item.defence}}</td>
-          <td>{{item.type}}</td>
-          <td class="hidden-xs hidden-sm">{{item.skill}}</td>
-          <td class="hidden-xs hidden-sm">{{item.skillLevel}}</td>
+        <tr ng-repeat="card in filteredCards = (cards | filter:searchWord | filter:searchSelector:strictComparator | filter:regionFilterFunc | filter:rarityFilterFunc | orderBy:predicate:reverse)">
+          <td><input type="checkbox" ng-model="card.selected"></td>
+          <td><a href="#/card/{{card.object.id}}">{{card.name}}</a></td>
+          <td>{{card.rarity | rarity}}</td>
+          <td>{{card.region}}</td>
+          <td class="hidden-xs">{{card.level}}/{{card.maxLevel}}</td>
+          <td>{{card.cost}}</td>
+          <td>{{card.attack}}</td>
+          <td>{{card.defence}}</td>
+          <td>{{card.type}}</td>
+          <td class="hidden-xs hidden-sm">{{card.skill}}</td>
+          <td class="hidden-xs hidden-sm">{{card.skillLevel}}</td>
         </tr>
       </tbody>
     </table>

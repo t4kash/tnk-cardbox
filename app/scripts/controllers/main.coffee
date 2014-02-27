@@ -1,10 +1,10 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'MainCtrl', ($scope, $location, cardAttribute, cardService, rarityFilter) ->
+  .controller 'MainCtrl', ($scope, $rootScope, $location, coreService, cardAttribute, cardService, rarityFilter) ->
 
     if !Parse.User.current()
-      $scope.logout()
+      coreService.logout()
       return
 
     # init
@@ -12,8 +12,7 @@ angular.module('tnkCardboxApp')
     $scope.regions = cardAttribute.regions
     $scope.cardTypes = cardAttribute.cardTypes
     $scope.rarities = cardAttribute.rarities
-    $scope.items = []
-    $scope.filteredItems = []
+    $scope.filteredCards = []
     $scope.loading = false
 
     $scope.predicateColumn = 'attack'
@@ -21,34 +20,19 @@ angular.module('tnkCardboxApp')
     $scope.reverse = true
 
     # fetch card list
-    $scope.fetchCardList = ->
+    $scope.fetchCardList = (force) ->
       $scope.loading = true
-      $scope.items = []
 
-      cardService.findCardList({
-        success: (results) ->
-          console.log "total: " + results.length
-          $scope.$apply( ->
-            $scope.items = []
-
-            for result in results
-              item = angular.copy result.attributes
-              item.id = result.id
-              item.selected = false
-              $scope.items.push item
-
-            $scope.loading = false
-          )
+      cardService.refreshCardList({
+        success: () ->
+          $scope.loading = false
         error: (error) ->
           # エラー
-          console.log(error.code + ' ' + error.message)
           if error.code == Parse.Error.OBJECT_NOT_FOUND
-            $scope.logout()
+            coreService.logout()
 
-          $scope.$apply( ->
-            $scope.loading = false
-          )
-      })
+          $scope.loading = false
+      }, force)
 
     $scope.fetchCardList()
 
@@ -99,16 +83,16 @@ angular.module('tnkCardboxApp')
 
     # 全選択
     $scope.toggleAll = ->
-      angular.forEach($scope.filteredItems, (item) ->
+      angular.forEach($scope.filteredCards, (item) ->
         item.selected = $scope.checkboxAll
       )
 
     # delete card
     $scope.deleteCard = ->
       cardIds = []
-      for item in $scope.items
+      for item in $rootScope.cards
         if item.selected
-          cardIds.push item.id
+          cardIds.push item.object.id
 
       if cardIds.length == 0
         alert "削除するカード情報を選択してください"
@@ -123,10 +107,10 @@ angular.module('tnkCardboxApp')
         promise = Parse.Promise.as()
         angular.forEach(results, (result) ->
           promise = promise.then(->
-            angular.forEach($scope.items, (item, i) ->
-              if item.id == result.id
+            angular.forEach($rootScope.cards, (item, i) ->
+              if item.object.id == result.id
                 $scope.$apply( ->
-                  $scope.items.splice(i, 1)
+                  $rootScope.cards.splice(i, 1)
                 )
             )
             return result.destroy()
@@ -145,7 +129,7 @@ angular.module('tnkCardboxApp')
     # CSV data
     $scope.csvData = ->
       csv = []
-      angular.forEach($scope.filteredItems, (item, i) ->
+      angular.forEach($scope.filteredCards, (item, i) ->
         csv.push({
           name: item.name
           nameKana: item.nameKana

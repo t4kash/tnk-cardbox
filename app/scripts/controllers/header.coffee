@@ -1,11 +1,11 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'HeaderCtrl', ($scope, $location) ->
+  .controller 'HeaderCtrl', ($scope, coreService) ->
 
     ###*
      * ログアウト
     ###
     $scope.logout = ->
-      Parse.User.logOut()
-      $location.path "/"
+      coreService.logout()
+

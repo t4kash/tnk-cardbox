@@ -9,7 +9,7 @@ angular.module('tnkCardboxApp', [
   'ngRoute'
   'ngCsv'
 ])
-  .config ['$routeProvider', ($routeProvider) ->
+  .config(['$routeProvider', ($routeProvider) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/login.html'
@@ -25,5 +25,8 @@ angular.module('tnkCardboxApp', [
         controller: 'CardCtrl'
       .otherwise
         redirectTo: '/'
-  ]
+  ])
+  .run(['$rootScope', ($rootScope) ->
+    $rootScope.cards = null
+  ])
 
