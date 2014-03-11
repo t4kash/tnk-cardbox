@@ -214,9 +214,42 @@
      */
     var parseLevel = function(cardLevel) {
       var m = cardLevel.text().match(/^([0-9]+)\/([0-9]+)(★*)$/);
-      var extendLevel = cardLevel.find('.white').text().length;
-      console.log(cardLevel.find('.white').text());
-      return {"level": parseInt(m[1]), "maxLevel": parseInt(m[2]), "extendLevel": extendLevel};
+      if (m) {
+        var extendLevel = cardLevel.find('.white').text().length;
+        console.log(cardLevel.find('.white').text());
+        return {"level": parseInt(m[1]), "maxLevel": parseInt(m[2]), "extendLevel": extendLevel};
+      } else {
+        return {};
+      }
+    };
+    
+    /**
+     * スキル攻防値のパース
+     */
+    var parseSkill = function(skillText) {
+      if (!skillText) {
+        return {};
+      }
+      var m = skillText.match(/(攻|防|攻防)([0-9]+)(%|％)(UP|DOWN)/);
+      if (m) {
+        var effectType;
+        var effectSign;
+        if (m[1] == "攻") {
+          effectType = 1;
+        } else if (m[1] == "防") {
+          effectType = 2;
+        } else if (m[1] == "攻防") {
+          effectType = 3;
+        }
+        if (m[4] == "UP") {
+          effectSign = 1;
+        } else {
+          effectSign = -1;
+        }
+        return {"skillEffectType": effectType, "skillEffectRate": parseInt(m[2]), "skillEffectSign": effectSign};
+      } else {
+        return {};
+      }
     };
 
     /**
@@ -227,6 +260,8 @@
       var cardSkill = card.find('.cardSkill');
 
       var level = parseLevel(card.find('.cardLevelValue'));
+      var skill = cardSkill.attr('data-skill-description');
+      var skillEffect = parseSkill(skill);
 
       return {
         "cardId": id,
@@ -241,10 +276,13 @@
         "attack": parseInt(card.find('.cardAttackPt').text()),
         "defence": parseInt(card.find('.cardDefencePt').text()),
         "type": card.find('.cardType').text(),
-        "skill": cardSkill.attr('data-skill-description'),
+        "skill": skill,
         "skillLevel": parseInt(cardSkill.attr('data-skill-level')),
         "skillName": cardSkill.attr('data-skill-name'),
         "skillTarget": cardSkill.attr('data-skill-target'),
+        "skillEffectType": skillEffect.skillEffectType,
+        "skillEffectRate": skillEffect.skillEffectRate,
+        "skillEffectSign": skillEffect.skillEffectSign,
       };
     };
 

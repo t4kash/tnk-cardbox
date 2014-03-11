@@ -10,6 +10,8 @@ angular.module('tnkCardboxApp')
     $scope.regions = cardAttribute.regions.concat(cardAttribute.prefectures)
     $scope.cardTypes = cardAttribute.cardTypes
     $scope.rarities = cardAttribute.rarities2
+    $scope.skillEffectTypes = cardAttribute.skillEffectTypes
+    $scope.skillEffectSigns = cardAttribute.skillEffectSigns
     $scope.card = {}
     $scope.cardObject = {}
     $scope.processing = false
@@ -61,6 +63,9 @@ angular.module('tnkCardboxApp')
       $scope.cardObject.set("skillLevel", $scope.card.skillLevel)
       $scope.cardObject.set("skillName", $scope.card.skillName)
       $scope.cardObject.set("skillTarget", $scope.card.skillTarget)
+      $scope.cardObject.set("skillEffectType", parseInt($scope.card.skillEffectType))
+      $scope.cardObject.set("skillEffectRate", $scope.card.skillEffectRate)
+      $scope.cardObject.set("skillEffectSign", parseInt($scope.card.skillEffectSign))
 
       $scope.cardObject.save(null, {
         success: (result) ->

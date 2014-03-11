@@ -9,27 +9,27 @@
           <input type="text" class="form-control" ng-model="searchWord" placeholder="キーワード">
         </div>
         <div class="form-group">
-          <select class="form-control" ng-model="searchSelector.region">
+          <select class="form-control" ng-model="searchSelector.region"
+            ng-options="prefecture for prefecture in prefectures">
             <option value="">全ての県</option>
-            <option ng-repeat="prefecture in prefectures" value="{{prefecture}}">{{prefecture}}</option>
           </select>
         </div>
         <div class="form-group">
-          <select class="form-control" ng-model="searchRegion">
+          <select class="form-control" ng-model="searchRegion"
+            ng-options="region for region in regions">
             <option value="">全ての地方</option>
-            <option ng-repeat="region in regions" value="{{region}}">{{region}}</option>
           </select>
         </div>
         <div class="form-group">
-          <select class="form-control" ng-model="searchSelector.type">
+          <select class="form-control" ng-model="searchSelector.type"
+            ng-options="type for type in cardTypes">
             <option value="">全てのタイプ</option>
-            <option ng-repeat="type in cardTypes" value="{{type}}">{{type}}</option>
           </select>
         </div>
         <div class="form-group">
-          <select class="form-control" ng-model="searchRarity">
+          <select class="form-control" ng-model="searchRarity"
+            ng-options="rare for rare in rarities">
             <option value="">全てのレア度</option>
-            <option ng-repeat="rare in rarities" value="{{rare}}">{{rare}}</option>
           </select>
         </div>
         <div class="form-group">

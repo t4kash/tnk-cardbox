@@ -157,6 +157,19 @@ angular.module('tnkCardboxApp')
       {name: 'N', value: 'normal'}
     ]
 
+    # スキル効果攻防
+    this.skillEffectTypes = [
+      {name: '攻撃', value: 1}
+      {name: '防御', value: 2}
+      {name: '攻防', value: 3}
+    ]
+
+    # スキル効果方向
+    this.skillEffectSigns = [
+      {name: 'UP', value: 1}
+      {name: 'DOWN', value: -1}
+    ]
+
     # 県の地域を返す
     this.regionByPrefecture = (prefecture) ->
       return this.regionMap[prefecture]

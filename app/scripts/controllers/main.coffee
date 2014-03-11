@@ -62,21 +62,21 @@ angular.module('tnkCardboxApp')
 
     # select comparator
     $scope.strictComparator = (actual, expected) ->
-      if expected == ""
+      if not expected?
         return true
       else
         return angular.equals(expected, actual)
 
     # 地方検索用filter
     $scope.regionFilterFunc = (item) ->
-      if !$scope.searchRegion? || $scope.searchRegion == ""
+      if not $scope.searchRegion?
         return true
       else
         return $scope.searchRegion == cardAttribute.regionByPrefecture item.region
 
     # レア度検索用filter
     $scope.rarityFilterFunc = (item) ->
-      if !$scope.searchRarity? || $scope.searchRarity == ""
+      if not $scope.searchRarity?
         return true
       else
         return $scope.searchRarity == rarityFilter(item.rarity)

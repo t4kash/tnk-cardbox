@@ -31,8 +31,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">レア</label>
       <div class="col-sm-10">
-        <select name="rarity" class="form-control" ng-model="card.rarity" required>
-          <option ng-repeat="rare in rarities" value="{{rare.value}}">{{rare.name}}</option>
+        <select name="rarity" class="form-control" ng-model="card.rarity" required
+          ng-options="rare.value as rare.name for rare in rarities">
         </select>
         <div class="text-danger" ng-show="form.rarity.$invalid">必須</div>
       </div>
@@ -41,8 +41,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">地域</label>
       <div class="col-sm-10">
-        <select name="region" class="form-control" ng-model="card.region" required>
-          <option ng-repeat="region in regions" value="{{region}}">{{region}}</option>
+        <select name="region" class="form-control" ng-model="card.region" required
+          ng-options="region for region in regions">
         </select>
         <div class="text-danger" ng-show="form.region.$invalid">必須</div>
       </div>
@@ -91,9 +91,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">タイプ</label>
       <div class="col-sm-10">
-        <select name="cardType" class="form-control" ng-model="card.type" required>
-          <option ng-repeat="type in cardTypes" value="{{type}}">{{type}}</option>
-        </select>
+        <select name="cardType" class="form-control" ng-model="card.type" required
+          ng-options="item for item in cardTypes"></select>
         <div class="text-danger" ng-show="form.cardType.$invalid">必須</div>
       </div>
     </div>
@@ -128,11 +127,39 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-2 control-label">スキル効果攻防</label>
+      <div class="col-sm-10">
+        <select class="form-control" ng-model="card.skillEffectType"
+          ng-options="item.value as item.name for item in skillEffectTypes">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキル効果%</label>
+      <div class="col-sm-10">
+        <input type="number" name="skillEffectRate" class="form-control" ng-model="card.skillEffectRate" min="1" max="100">
+        <div class="text-danger" ng-show="form.skillEffectRate.$invalid">1-100</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">スキル効果方向</label>
+      <div class="col-sm-10">
+        <select class="form-control" ng-model="card.skillEffectSign"
+          ng-options="item.value as item.name for item in skillEffectSigns">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <p class="text-danger" ng-show="errorMessage != ''">{{errorMessage}}</p>
         <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || processing">保存</button>
       </div>
     </div>
   </form>
-          
+
 </div><!-- /.container -->
