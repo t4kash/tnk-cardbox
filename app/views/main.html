@@ -2,47 +2,46 @@
 
 <div class="container">
 
-  <div class="panel panel-default" id="card-list-panel">
-    <div class="panel-body">
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <input type="text" class="form-control" ng-model="searchWord" placeholder="キーワード">
-        </div>
-        <div class="form-group">
-          <select class="form-control" ng-model="searchSelector.region"
-            ng-options="prefecture for prefecture in prefectures">
-            <option value="">全ての県</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <select class="form-control" ng-model="searchRegion"
-            ng-options="region for region in regions">
-            <option value="">全ての地方</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <select class="form-control" ng-model="searchSelector.type"
-            ng-options="type for type in cardTypes">
-            <option value="">全てのタイプ</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <select class="form-control" ng-model="searchRarity"
-            ng-options="rare for rare in rarities">
-            <option value="">全てのレア度</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-default" ng-click="fetchCardList(true)"><i class="fa fa-refresh"></i></button>
-          <button type="button" class="btn btn-default" ng-click="deleteCard()"><i class="fa fa-trash-o"></i></button>
-          <button type="button" class="btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
-          <label>{{filteredCards.length}}件</label>
-        </div>
-        <div class="form-group">
-          <img src="images/loading.gif" ng-show="loading">
-        </div>
-      </form>
-    </div><!-- /.panel-body -->
+  <div class="well">
+    <form class="form-inline" role="form">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="searchWord" placeholder="キーワード">
+      </div>
+      <div class="form-group">
+        <select class="form-control" ng-model="searchSelector.region"
+          ng-options="prefecture for prefecture in prefectures">
+          <option value="">全ての県</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" ng-model="searchRegion"
+          ng-options="region for region in regions">
+          <option value="">全ての地方</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" ng-model="searchSelector.type"
+          ng-options="type for type in cardTypes">
+          <option value="">全てのタイプ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" ng-model="searchRarity"
+          ng-options="rare for rare in rarities">
+          <option value="">全てのレア度</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-default" ng-click="fetchCardList(true)"><i class="fa fa-refresh"></i></button>
+        <button type="button" class="btn btn-default" ng-click="deleteCard()"><i class="fa fa-trash-o"></i></button>
+        <button type="button" class="btn btn-default" ng-csv="csvData()" filename='card.csv'><i class="fa fa-download"> CSV</i></button>
+        <label>{{filteredCards.length}}件</label>
+      </div>
+      <div class="form-group">
+        <img src="images/loading.gif" ng-show="loading">
+      </div>
+    </form>
+  </div><!-- /.well -->
 
     <table id="card-list" class="table table-striped table-bordered table-hover table-condensed">
       <thead>
@@ -76,6 +75,5 @@
         </tr>
       </tbody>
     </table>
-  </div><!-- /.panel -->
 
 </div><!-- /.container -->
