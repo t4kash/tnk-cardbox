@@ -1,0 +1,35 @@
+<div ng-include="'views/header.html'"></div>
+
+<div class="container">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <a href="#/main" class="btn btn-default"><i class="fa fa-reply"></i></a>
+    </div>
+  </form>
+  <hr>
+
+  <p class="text-center" ng-show="loading">
+    <img src="images/loading.gif">
+  </p>
+
+  <form name="form" class="form-horizontal" role="form" ng-submit="save()" ng-hide="loading">
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">自所属県</label>
+      <div class="col-sm-10">
+        <select name="prefecture" class="form-control" ng-model="userConfig.prefecture" required
+          ng-options="prefecture for prefecture in prefectures">
+        </select>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <p class="text-danger" ng-show="errorMessage != ''">{{errorMessage}}</p>
+        <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || processing">保存</button>
+      </div>
+    </div>
+  </form>
+
+</div><!-- /.container -->

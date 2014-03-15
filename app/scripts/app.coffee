@@ -17,6 +17,9 @@ angular.module('tnkCardboxApp', [
       .when '/main',
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
+      .when '/config',
+        templateUrl: 'views/config.html'
+        controller: 'ConfigCtrl'
       .when '/card',
         templateUrl: 'views/card.html'
         controller: 'CardCtrl'

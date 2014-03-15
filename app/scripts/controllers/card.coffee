@@ -3,7 +3,7 @@
 angular.module('tnkCardboxApp')
   .controller 'CardCtrl', ['$scope', '$location', '$routeParams', 'coreService', 'cardService', 'cardAttribute', ($scope, $location, $routeParams, coreService, cardService, cardAttribute) ->
 
-    if !Parse.User.current()
+    if !coreService.getUser()
       coreService.logout()
       return
 
@@ -25,8 +25,9 @@ angular.module('tnkCardboxApp')
       $scope.loading = true
       cardService.getCardWithRefreshList(objectId, {
         success: (result) ->
-          $scope.cardObject = result.object
-          $scope.card = angular.copy result.object.attributes
+          if result?
+            $scope.cardObject = result.object
+            $scope.card = angular.copy result.object.attributes
           $scope.loading = false
         error: (error) ->
           $scope.loading = false
