@@ -413,6 +413,13 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    exec: {
+      // deploy to parse.com
+      parseDeploy: {
+        command: 'cd parse;parse deploy'
+      }
     }
   });
 
@@ -469,4 +476,8 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+  
+  grunt.registerTask('deploy', function () {
+    grunt.task.run(['build', 'exec:parseDeploy']);
+  });
 };
