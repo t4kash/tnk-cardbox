@@ -31,5 +31,6 @@ angular.module('tnkCardboxApp', [
   ])
   .run(['$rootScope', ($rootScope) ->
     $rootScope.cards = null
+    $rootScope.cardObjects = null
   ])
 

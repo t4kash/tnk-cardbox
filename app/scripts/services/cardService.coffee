@@ -45,9 +45,11 @@ angular.module('tnkCardboxApp')
     ###
     pushCard = (cardObject) ->
       card = angular.copy cardObject.attributes
-      card.object = cardObject
+      #card.object = cardObject
       card.selected = false
+      card.id = cardObject.id
       $rootScope.cards.push card
+      $rootScope.cardObjects.push cardObject
 
     ###*
      * 全カードデータを取得して$rootScopeに格納する
@@ -64,12 +66,14 @@ angular.module('tnkCardboxApp')
         return
 
       $rootScope.cards = []
+      $rootScope.cardObjects = []
 
       this.findCardList({
         success: (results) ->
           console.log "total: " + results.length
           $rootScope.$apply( ->
             $rootScope.cards = []
+            $rootScope.cardObjects = []
 
             for result in results
               pushCard result
@@ -89,9 +93,11 @@ angular.module('tnkCardboxApp')
      * @return {object} カード情報。存在しない場合はnullを返す
     ###
     this.getCardFromMemory = (objectId) ->
-      for card in $rootScope.cards
-        if card.object.id == objectId
-          return card
+      for card, i in $rootScope.cards
+        if card.id == objectId
+          ret = angular.copy card
+          ret.object = $rootScope.cardObjects[i]
+          return ret
 
       return null
 
@@ -129,9 +135,10 @@ angular.module('tnkCardboxApp')
     ###
     this.updatedCard = (cardObject) ->
       for card, i in $rootScope.cards
-        if card.object.id == cardObject.id
+        if card.id == cardObject.id
           $rootScope.cards[i] = angular.copy cardObject.attributes
-          $rootScope.cards[i].object = cardObject
+          $rootScope.cards[i].id = cardObject.id
+          $rootScope.cardObjects[i] = cardObject
           return
 
       pushCard cardObject
