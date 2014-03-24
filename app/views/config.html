@@ -11,8 +11,10 @@
   <p class="text-center" ng-show="loading">
     <img src="images/loading.gif">
   </p>
+  
 
   <form name="form" class="form-horizontal" role="form" ng-submit="save()" ng-hide="loading">
+    <h3>設定</h3>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">自所属県</label>
@@ -28,6 +30,33 @@
       <div class="col-sm-offset-2 col-sm-10">
         <p class="text-danger" ng-show="errorMessage != ''">{{errorMessage}}</p>
         <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || processing">保存</button>
+      </div>
+    </div>
+  </form>
+
+  <form name="formPassword" class="form-horizontal" role="form" ng-submit="savePassword()" ng-hide="loading">
+    <h3>パスワード変更</h3>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">パスワード</label>
+      <div class="col-sm-10">
+        <input type="password" name="pw1" class="form-control" ng-model="password1" ng-minlength="6" required>
+        <div ng-show="formPassword.pw1.$dirty && formPassword.pw1.$invalid">6文字以上で入力してください</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">パスワード確認</label>
+      <div class="col-sm-10">
+        <input type="password" name="pw2" class="form-control" ng-model="password2" ng-minlength="6" required text-match="password1">
+        <div ng-show="formPassword.pw2.$error.mismatch">一致しません</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <p class="text-danger" ng-show="errorMessage != ''">{{errorMessage}}</p>
+        <button type="submit" class="btn btn-primary" ng-disabled="formPassword.$invalid || processing">保存</button>
       </div>
     </div>
   </form>

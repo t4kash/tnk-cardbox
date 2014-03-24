@@ -12,7 +12,6 @@ angular.module('tnkCardboxApp')
     $scope.errorMessage = ''
     $scope.loading = false
     $scope.userConfig = undefined
-    $scope.userConfigObject = undefined
 
     ###*
      * 設定読み込み
@@ -22,26 +21,44 @@ angular.module('tnkCardboxApp')
       coreService.getUserConfig({
         success: (result) ->
           if result?
-            $scope.userConfigObject = result
             $scope.userConfig = angular.copy result.attributes
+            $scope.userConfig.object = result
           $scope.loading = false
         error: (error) ->
           $scope.loading = false
       })
 
     ###*
-     * 保存
+     * 設定保存
     ###
     $scope.save = ->
       $scope.processing = true
 
       coreService.saveUserConfig(
-        $scope.userConfigObject
+        $scope.userConfig.object
         {"prefecture": $scope.userConfig.prefecture}
         {
           success: (result) ->
-            $scope.userConfigObject = result
             $scope.userConfig = angular.copy result.attributes
+            $scope.userConfig.object = result
+            $scope.processing = false
+            $location.path "/main"
+          error: (error) ->
+            $scope.errorMessage = "エラー:" + error.code
+            $scope.processing = false
+        }
+      )
+
+    ###*
+     * パスワード保存
+    ###
+    $scope.savePassword = ->
+      $scope.processing = true
+
+      coreService.changePassword(
+        $scope.password1
+        {
+          success: (result) ->
             $scope.processing = false
             $location.path "/main"
           error: (error) ->
