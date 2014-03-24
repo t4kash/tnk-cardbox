@@ -69,5 +69,26 @@ angular.module('tnkCardboxApp')
           )
       })
 
+    ###*
+     * 現在のユーザーのパスワードを変更する
+     * @param {string} password user password
+     * @param {object} callback {success:function(result), error:function(error)}
+    ###
+    this.changePassword = (password, callback) ->
+      user = Parse.User.current()
+      user.set("password", password)
+      user.save(null, {
+        success: (result) ->
+          console.log 'success update password'
+          $rootScope.$apply( ->
+            callback.success result
+          )
+        error: (result, error) ->
+          console.log error
+          $rootScope.$apply( ->
+            callback.error error
+          )
+      })
+
 
     @
