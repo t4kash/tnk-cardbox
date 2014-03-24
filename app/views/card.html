@@ -98,6 +98,29 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-2 control-label">スキル効果</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control force-inline input-width-2" ng-model="card.skillTarget" placeholder="タイプ">
+
+        <span class="force-inline">の</span>
+
+        <select class="form-control force-inline input-width-2" ng-model="card.skillEffectType"
+          ng-options="item.value as item.name for item in skillEffectTypes">
+          <option value=""></option>
+        </select>
+        
+        <input type="number" name="skillEffectRate" class="form-control force-inline input-width-2" ng-model="card.skillEffectRate" min="1" max="100">
+        <span class="force-inline">%</span>
+
+        <select class="form-control force-inline input-width-2" ng-model="card.skillEffectSign"
+          ng-options="item.value as item.name for item in skillEffectSigns">
+          <option value=""></option>
+        </select>
+        <div class="text-danger" ng-show="form.skillEffectRate.$invalid">1-100</div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="col-sm-2 control-label">スキル名</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" ng-model="card.skillName">
@@ -116,41 +139,6 @@
       <label class="col-sm-2 control-label">スキル説明</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" ng-model="card.skill">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-2 control-label">スキルターゲット</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" ng-model="card.skillTarget">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-2 control-label">スキル効果攻防</label>
-      <div class="col-sm-10">
-        <select class="form-control" ng-model="card.skillEffectType"
-          ng-options="item.value as item.name for item in skillEffectTypes">
-          <option value=""></option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-2 control-label">スキル効果%</label>
-      <div class="col-sm-10">
-        <input type="number" name="skillEffectRate" class="form-control" ng-model="card.skillEffectRate" min="1" max="100">
-        <div class="text-danger" ng-show="form.skillEffectRate.$invalid">1-100</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-2 control-label">スキル効果方向</label>
-      <div class="col-sm-10">
-        <select class="form-control" ng-model="card.skillEffectSign"
-          ng-options="item.value as item.name for item in skillEffectSigns">
-          <option value=""></option>
-        </select>
       </div>
     </div>
 

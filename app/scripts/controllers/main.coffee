@@ -90,9 +90,9 @@ angular.module('tnkCardboxApp')
     # delete card
     $scope.deleteCard = ->
       cardIds = []
-      for item in $rootScope.cards
-        if item.selected
-          cardIds.push item.object.id
+      for card in $rootScope.cards
+        if card.selected
+          cardIds.push card.id
 
       if cardIds.length == 0
         alert "削除するカード情報を選択してください"
@@ -107,10 +107,11 @@ angular.module('tnkCardboxApp')
         promise = Parse.Promise.as()
         angular.forEach(results, (result) ->
           promise = promise.then(->
-            angular.forEach($rootScope.cards, (item, i) ->
-              if item.object.id == result.id
+            angular.forEach($rootScope.cards, (card, i) ->
+              if card.id == result.id
                 $scope.$apply( ->
                   $rootScope.cards.splice(i, 1)
+                  $rootScope.cardObjects.splice(i, 1)
                 )
             )
             return result.destroy()

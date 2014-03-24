@@ -62,7 +62,7 @@
       <tbody>
         <tr ng-repeat="card in filteredCards = (cards | filter:searchWord | filter:searchSelector:strictComparator | filter:regionFilterFunc | filter:rarityFilterFunc | orderBy:predicate:reverse)">
           <td><input type="checkbox" ng-model="card.selected"></td>
-          <td><a href="#/card/{{card.object.id}}">{{card.name}}</a></td>
+          <td><a href="#/card/{{card.id}}">{{card.name}}</a></td>
           <td>{{card.rarity | rarity}}</td>
           <td>{{card.region}}</td>
           <td class="hidden-xs">{{card.level}}/{{card.maxLevel}}</td>
