@@ -30,6 +30,7 @@ angular.module('tnkCardboxApp', [
         redirectTo: '/'
   ])
   .run(['$rootScope', ($rootScope) ->
+    $rootScope.loading = false
     $rootScope.cards = null
     $rootScope.cardObjects = null
   ])

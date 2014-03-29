@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'ConfigCtrl', ($scope, $location, coreService, cardAttribute) ->
+  .controller 'ConfigCtrl', ($scope, $rootScope, $location, coreService, cardAttribute) ->
 
     if !coreService.getUser()
       coreService.logout()
@@ -10,22 +10,21 @@ angular.module('tnkCardboxApp')
     $scope.prefectures = cardAttribute.prefectures
     $scope.processing = false
     $scope.errorMessage = ''
-    $scope.loading = false
     $scope.userConfig = undefined
 
     ###*
      * 設定読み込み
     ###
     loadConfig = ->
-      $scope.loading = true
+      $rootScope.loading = true
       coreService.getUserConfig({
         success: (result) ->
           if result?
             $scope.userConfig = angular.copy result.attributes
             $scope.userConfig.object = result
-          $scope.loading = false
+          $rootScope.loading = false
         error: (error) ->
-          $scope.loading = false
+          $rootScope.loading = false
       })
 
     ###*

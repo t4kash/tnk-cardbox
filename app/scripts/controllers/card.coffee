@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('tnkCardboxApp')
-  .controller 'CardCtrl', ['$scope', '$location', '$routeParams', 'coreService', 'cardService', 'cardAttribute', ($scope, $location, $routeParams, coreService, cardService, cardAttribute) ->
+  .controller 'CardCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'coreService', 'cardService', 'cardAttribute', ($scope, $rootScope, $location, $routeParams, coreService, cardService, cardAttribute) ->
 
     if !coreService.getUser()
       coreService.logout()
@@ -15,20 +15,19 @@ angular.module('tnkCardboxApp')
     $scope.card = {}
     $scope.processing = false
     $scope.errorMessage = ''
-    $scope.loading = false
 
     ###*
      * カード情報読み込み
     ###
     showCard = (objectId) ->
-      $scope.loading = true
+      $rootScope.loading = true
       cardService.getCardWithRefreshList(objectId, {
         success: (result) ->
           if result?
             $scope.card = result
-          $scope.loading = false
+          $rootScope.loading = false
         error: (error) ->
-          $scope.loading = false
+          $rootScope.loading = false
       })
 
     ###*

@@ -13,7 +13,6 @@ angular.module('tnkCardboxApp')
     $scope.cardTypes = cardAttribute.cardTypes
     $scope.rarities = cardAttribute.rarities
     $scope.filteredCards = []
-    $scope.loading = false
 
     $scope.predicateColumn = 'attack'
     $scope.predicate = 'attack'
@@ -21,17 +20,17 @@ angular.module('tnkCardboxApp')
 
     # fetch card list
     $scope.fetchCardList = (force) ->
-      $scope.loading = true
+      $rootScope.loading = true
 
       cardService.refreshCardList({
         success: () ->
-          $scope.loading = false
+          $rootScope.loading = false
         error: (error) ->
           # エラー
           if error.code == Parse.Error.OBJECT_NOT_FOUND
             coreService.logout()
 
-          $scope.loading = false
+          $rootScope.loading = false
       }, force)
 
     $scope.fetchCardList()
@@ -100,7 +99,7 @@ angular.module('tnkCardboxApp')
         if !confirm(cardIds.length + "件のカード情報を削除します")
           return
 
-      $scope.loading = true
+      $rootScope.loading = true
 
       cardService.findCardListInIds(cardIds).then((results) ->
         # promise数珠つなぎで消していく
@@ -121,7 +120,7 @@ angular.module('tnkCardboxApp')
         # 終わったらloading off
         promise.always( ->
           $scope.$apply( ->
-            $scope.loading = false
+            $rootScope.loading = false
           )
         )
       )
